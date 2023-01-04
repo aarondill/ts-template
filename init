@@ -21,7 +21,7 @@ else
 	npm_name_pattern='^(?:@[a-z0-9*~-][a-z0-9*._~-]*/)?[a-z0-9~-][a-z0-9._~-]*$'
 	while true; do
 		echo && read -rep "What is the name of the project? " -i "${projectName:-$foldername}" projectName
-		projectName="${projectName/ /-}"
+		projectName="${projectName// /-}"
 		projectName="${projectName,,}"
 		if [[ -n "$projectName" ]] &&
 			(printf '%s' "$projectName" | grep -E "$npm_name_pattern" >/dev/null); then
