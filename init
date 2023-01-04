@@ -158,7 +158,7 @@ if [[ "$skipPrompts" = 'false' ]] && command -v gh &>/dev/null; then
 		read -rep "Public or Private? (pub / pr) " -i "pr" public_status
 		if [[ -n "$public_status" && "${public_status,,}" =~ ^\s*pub(lic)?\s*$ ]]; then
 			# Confirm and make public if requested
-			read -rep "Create public repo with name of $projectName? (yes) " confirm
+			read -rep "Create public repo with name of '$projectName'? (yes) " confirm
 			if [[ -z "$confirm" || "${confirm,,}" =~ ^\s*y(es)?\s*$ ]]; then
 				gh repo create "$projectName" --public --source=. --remote=origin --push
 			else
@@ -166,7 +166,7 @@ if [[ "$skipPrompts" = 'false' ]] && command -v gh &>/dev/null; then
 			fi
 		else
 			# Confirm and make private by default
-			read -rep "Create private repo with name of $projectName? (yes) " confirm
+			read -rep "Create private repo with name of '$projectName'? (yes) " confirm
 			if [[ -z "$confirm" || "${confirm,,}" =~ ^\s*y(es)?\s*$ ]]; then
 				gh repo create "$projectName" --private --source=. --remote=origin --push
 			else
