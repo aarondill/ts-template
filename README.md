@@ -36,7 +36,3 @@ Simply answer the quick questions, let it install DevDependencies and enjoy!
 ## Notes:
 
 Project name is validated against the [NPM project name requirements](https://docs.npmjs.com/cli/v9/configuring-npm/package-json#name). Uppercase letters are automatically converted to lowercase and spaces are converted to dashes. Other requirements must be manually achieved.
-
-```
-
-```
