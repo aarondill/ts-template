@@ -4,7 +4,7 @@ Create a new TypeScript project in one easy step! No more installing packages an
 
 ## Steps to use:
 
-1. Clone this repository with `$ git clone https://github.com/aarondill/ts-template <name-for-your-folder>`
+1. Clone this repository with `$ git clone --depth 1 https://github.com/aarondill/ts-template <name-for-your-folder>`
 2. Navigate to the folder you just cloned: `$ cd <name-for-your-folder>`
 3. Run the init script: `$ ./init`
 
@@ -14,7 +14,7 @@ This is the only currently supported option. Other arguments will have no effect
 ### OR use this _one_ command!
 
 ```bash
-read -rep 'What to call your folder? ' folderName && [[ -n "$folderName" ]] && git clone https://github.com/aarondill/ts-template "$folderName" && cd "$folderName" && ./init
+read -rep 'What to call your folder? ' folderName && [[ -n "$folderName" ]] && git clone --depth 1 https://github.com/aarondill/ts-template "$folderName" && cd "$folderName" && ./init
 ```
 
 Simply answer the quick questions, let it install DevDependencies and enjoy!
