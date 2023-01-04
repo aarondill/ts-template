@@ -20,7 +20,7 @@ if [[ "$skipPrompts" = 'true' ]]; then
 else
 	npm_name_pattern='^(?:@[a-z0-9*~-][a-z0-9*._~-]*/)?[a-z0-9~-][a-z0-9._~-]*$'
 	while true; do
-		read -rep "What is the name of the project? " -i "${projectName:-$foldername}" projectName
+		echo && read -rep "What is the name of the project? " -i "${projectName:-$foldername}" projectName
 		projectName="${projectName/ /-}"
 		projectName="${projectName,,}"
 		if [[ -n "$projectName" ]] &&
@@ -36,7 +36,6 @@ else
 				The names of scoped packages can begin with a dot or an underscore. This is not permitted without a scope.
 				New packages must not have uppercase letters in the name.
 				The name ends up being part of a URL, an argument on the command line, and a folder name. Therefore, the name can't contain any non-URL-safe characters.
-
 			EOF
 		fi
 	done
