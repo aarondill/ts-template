@@ -57,8 +57,14 @@ printf '# %s\n' "$projectName" >|README.md
 
 # ---- NPM SETUP ----
 
-# Setup npm automatically
-npm init -y >/dev/null
+# Setup package.json to allow for error avoidance with weird folder names
+cat >|package.json <<-EOF
+	{
+	  "version": "1.0.0",
+	  "description": "",
+	  "author": ""
+	 }
+EOF
 
 # Set some important fields
 npm pkg set name="$projectName"

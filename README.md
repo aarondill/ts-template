@@ -14,7 +14,7 @@ This is the only currently supported option. Other arguments will have no effect
 ### OR use this _one_ command!
 
 ```bash
-clear && read -rep 'What to call your folder? ' folderName && [[ -n "$folderName" ]] && git clone https://github.com/aarondill/ts-template "$folderName" && cd "$folderName" && ./init
+read -rep 'What to call your folder? ' folderName && [[ -n "$folderName" ]] && git clone https://github.com/aarondill/ts-template "$folderName" && cd "$folderName" && ./init
 ```
 
 Simply answer the quick questions, let it install DevDependencies and enjoy!
