@@ -1,0 +1,183 @@
+#! /usr/bin/env bash
+
+skipPrompts='false'
+if [[ "$1" == "-y" || "$1" == "--yes" ]]; then
+	skipPrompts='true'
+fi
+
+# ---- SCRIPT SETUP ----
+
+unset CDPATH                      # Ensure safe CDing support
+cd "$(dirname -- "$0")" || exit 1 # Ensure files are created in directory of script
+
+# ---- GET PROJECT NAME ----
+
+# Default project name is base of parent folder
+foldername="$(basename -- "$(realpath -- .)")"
+unset projectName
+if [[ "$skipPrompts" = 'true' ]]; then
+	projectName="$foldername"
+else
+	npm_name_pattern='^(?:@[a-z0-9*~-][a-z0-9*._~-]*/)?[a-z0-9~-][a-z0-9._~-]*$'
+	while true; do
+		read -rep "What is the name of the project? " -i "${projectName:-$foldername}" projectName
+		projectName="${projectName/ /-}"
+		projectName="${projectName,,}"
+		if [[ -n "$projectName" ]] &&
+			(printf '%s' "$projectName" | grep -E "$npm_name_pattern" >/dev/null); then
+			read -rep "Use name $projectName? (yes) " usename
+			if [[ -z "$usename" || "${usename,,}" =~ ^\s*y(es)?\s*$ ]]; then
+				break
+			fi
+		else
+			cat <<-EOF
+				Please give a valid name for the project! Requirements:
+				The name must be less than or equal to 214 characters. This includes the scope for scoped packages.
+				The names of scoped packages can begin with a dot or an underscore. This is not permitted without a scope.
+				New packages must not have uppercase letters in the name.
+				The name ends up being part of a URL, an argument on the command line, and a folder name. Therefore, the name can't contain any non-URL-safe characters.
+			EOF
+		fi
+	done
+fi
+
+# ---- FILE SETUP ----
+
+# Create src directory with index.ts file
+mkdir ./src
+touch ./src/index.ts
+
+# Create Resources directory
+mkdir ./resources
+
+# Create README.md file with title of folder base
+touch ./README.md
+printf '# %s\n' "$projectName" >|README.md
+
+# ---- NPM SETUP ----
+
+# Setup npm automatically
+npm init -y >/dev/null
+
+# Set some important fields
+npm pkg set name="$projectName"
+npm pkg set main='dist/index.js'
+npm pkg set types='dist/index.d.ts'
+npm pkg set license="MIT"
+
+# ---- DEVDEPENDENCIES ----
+
+# Add necessary DevDependencies
+npm i -D typescript @types/node sort-package-json rimraf eslint >/dev/null
+
+# ---- SCRIPTS ----
+
+# Add utility scripts to npm
+npm pkg set scripts.clean="rimraf ./dist"
+npm pkg set scripts.lint="eslint ./src --ext .js,.ts --fix"
+
+# Add build script to npm using typescript
+npm pkg set scripts.prebuild="npm run lint && npm run clean"
+npm pkg set scripts.build="tsc --build"
+
+# Add watch script to npm using typescript
+npm pkg set scripts.prewatch="npm run clean"
+npm pkg set scripts.watch="tsc --watch"
+
+# Add sortPackage script to npm using sort-package-json
+npm pkg set scripts.sort-package="sort-package-json"
+
+# ---- ESLINT CONFIG ----
+
+if [[ "$skipPrompts" = 'true' ]]; then
+	useEslint='yes'
+else
+	read -rep "Use included eslint config? (yes) " useEslint
+fi
+
+if [[ -n "$useEslint" && "${useEslint,,}" =~ ^n(o)?$ ]]; then
+	# Remove included eslint config if user does not want it
+	rm .eslintrc.json
+fi
+
+# ---- TESTING SETUP ----
+
+if [[ "$skipPrompts" = 'true' ]]; then
+	jest='yes'
+else
+	read -rep "Include Jest for testing? (yes) " jest
+fi
+
+if [[ -z "$jest" || "${jest,,}" =~ ^y(es)?$ ]]; then
+	# Install Jest and Jest types
+	npm i -D jest @types/jest >/dev/null
+
+	# Setup test scripts
+	npm pkg set scripts.pretest="npm run lint"
+	npm pkg set scripts.test="jest"
+
+	# Create tests directory and test file for index.ts
+	mkdir -p tests
+	touch index.test.ts
+else
+	# Remove jest config if not required
+	rm jest.config.js
+fi
+
+# ---- SORT PACKAGE.JSON ----
+
+# Already installed above
+npx sort-package-json
+
+# ---- GIT INIT ----
+if [ "$(command -v git)" ]; then
+	# Create git repository and commit default files to it, EXCEPT init file
+	git init >/dev/null &&
+		git add . &&
+		git reset init &&
+		git commit -m "Initial commit" >/dev/null
+fi
+
+# ---- GH REPO CREATE ----
+
+# if Github CLI is installed
+if [[ "$skipPrompts" = 'false' ]] && command -v gh &>/dev/null; then
+	read -rep "Would you like to create a repo on Github? (yes) " GithubRepo
+	if [[ -z "$GithubRepo" || "${GithubRepo,,}" =~ ^\s*y(es)?\s*$ ]]; then
+		# Create A Github Repo
+		read -rep "Public or Private? (pub / pr) " -i "pr" public_status
+		if [[ -n "$public_status" && "${public_status,,}" =~ ^\s*pub(lic)?\s*$ ]]; then
+			# Confirm and make public if requested
+			read -rep "Create public repo with name of $projectName? (yes) " confirm
+			if [[ -z "$confirm" || "${confirm,,}" =~ ^\s*y(es)?\s*$ ]]; then
+				gh repo create "$projectName" --public --source=. --remote=origin --push
+			else
+				echo "Aborting"
+			fi
+		else
+			# Confirm and make private by default
+			read -rep "Create private repo with name of $projectName? (yes) " confirm
+			if [[ -z "$confirm" || "${confirm,,}" =~ ^\s*y(es)?\s*$ ]]; then
+				gh repo create "$projectName" --private --source=. --remote=origin --push
+			else
+				echo "Aborting"
+			fi
+		fi
+	fi
+fi
+
+# ---- INIT SCRIPT REMOVAL ----
+
+# Get user confirmation before deleting init script
+if [[ "$skipPrompts" = "true" ]]; then
+	removeInit='yes'
+else
+	echo
+	read -rep "Remove init script? (yes) " removeInit
+fi
+
+if [[ -z "$removeInit" || "${removeInit,,}" =~ ^\s*y(es)?\s*$ ]]; then
+	rm ./init
+fi
+
+echo && echo 'Happy Coding!'
