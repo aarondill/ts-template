@@ -118,7 +118,7 @@ if [[ -z "$jest" || "${jest,,}" =~ ^y(es)?$ ]]; then
 
 	# Create tests directory and test file for index.ts
 	mkdir -p tests
-	touch index.test.ts
+	touch tests/index.test.ts
 else
 	# Remove jest config if not required
 	rm jest.config.js
@@ -130,6 +130,10 @@ fi
 npx sort-package-json
 
 # ---- GIT INIT ----
+
+# Remove git files if already present from clone
+[[ -d .git ]] && rm -rf .git
+
 if [ "$(command -v git)" ]; then
 	# Create git repository and commit default files to it, EXCEPT init file
 	git init >/dev/null &&
