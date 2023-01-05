@@ -32,6 +32,8 @@ Simply answer the quick questions, let it install DevDependencies and enjoy!
 - Tsc outputs to ./dist from ./src
 - Package.json with lint, build, test(optional), and watch scripts already created
 - File system setup with tests, src, and resources folders, along with index.ts and index.test.ts files
+- Release-it included to allow easy releasing, with config file included. Run `npm run release` in your new project to create a release.
+- No (regular) dependencies will be added to your project
 
 ## Notes:
 

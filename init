@@ -74,7 +74,7 @@ npm pkg set license="MIT"
 # ---- DEVDEPENDENCIES ----
 
 # Add necessary DevDependencies
-npm i -D typescript @types/node sort-package-json rimraf eslint >/dev/null
+npm i -D typescript @types/node release-it sort-package-json rimraf eslint >/dev/null
 
 # ---- SCRIPTS ----
 
@@ -92,6 +92,8 @@ npm pkg set scripts.watch="tsc --watch"
 
 # Add sortPackage script to npm using sort-package-json
 npm pkg set scripts.sort-package="sort-package-json"
+# Add release scripts to release using release-it
+npm pkg set scripts.release="release-it"
 
 # ---- ESLINT CONFIG ----
 
