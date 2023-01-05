@@ -24,7 +24,7 @@ Simply answer the quick questions, let it install DevDependencies and enjoy!
 - Automatically create local git repo
 - Optionally create Github repository (**Requires `gh` CLI**)
 - Support for Jest, with built-in config
-- Optional config file for eslint
+- Config file for eslint with TypeScript (optional root property)
 - .gitignore with many popular files already listed. **Please Check Contents Before Committing!**
 - .vscodeignore for easy configuration if creating vscode extensions. Feel free to remove in other cases.
 - MIT License already included
