@@ -1,9 +1,16 @@
 {
 	"root": true,
 	"parser": "@typescript-eslint/parser",
+	"extends": "eslint:recommended",
 	"parserOptions": {
-		"ecmaVersion": 6,
-		"sourceType": "module"
+		"ecmaVersion": "latest",
+		"sourceType": "module",
+		"impliedStrict": true,
+		"project": ["./tsconfig.json"]
+	},
+	"env": {
+		"browser": true,
+		"node": true
 	},
 	"plugins": ["@typescript-eslint"],
 	"rules": {
@@ -15,3 +22,4 @@
 	},
 	"ignorePatterns": ["out", "dist", "**/*.d.ts", "node_modules"]
 }
+

@@ -74,8 +74,7 @@ npm pkg set license="MIT"
 # ---- DEVDEPENDENCIES ----
 
 # Add necessary DevDependencies
-npm i -D typescript @types/node release-it sort-package-json rimraf eslint >/dev/null
-
+npm i -D typescript @types/node release-it sort-package-json rimraf eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin >/dev/null
 # ---- SCRIPTS ----
 
 # Add utility scripts to npm
@@ -100,12 +99,13 @@ npm pkg set scripts.release="release-it"
 if [[ "$skipPrompts" = 'true' ]]; then
 	useEslint='yes'
 else
-	read -rep "Use included eslint config? (yes) " useEslint
+	read -rep "Use included eslint config as root? (yes) " useEslint
 fi
 
 if [[ -n "$useEslint" && "${useEslint,,}" =~ ^n(o)?$ ]]; then
-	# Remove included eslint config if user does not want it
-	rm .eslintrc.json
+        # User doesn't want as root
+	# Replace first root: true with root: false for first instance
+        sed -i '0,/"root": true,/s//"root": false,/' .eslintrc.json
 fi
 
 # ---- TESTING SETUP ----
