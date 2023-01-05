@@ -8,6 +8,9 @@
 	"github": {
 		"release": true,
 		"releaseName": "Release ${version}",
-		"tokenRef": "GITHUB_TOKEN"
+		"tokenRef": "RELEASE_IT_GITHUB_TOKEN"
+	},
+	"hooks": {
+		"after:bump": "npx auto-changelog -p"
 	}
 }
