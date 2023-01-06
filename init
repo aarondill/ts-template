@@ -59,18 +59,19 @@ printf '# %s\n' "$projectName" >|README.md
 # Setup package.json to allow for error avoidance with weird folder names
 cat >|package.json <<-EOF
 	{
-	  "version": "1.0.0",
-	  "description": "",
-	  "author": ""
+		"version": "1.0.0",
+		"description": "",
+		"author": ""
+		"private": true
+		"main": "dist/index.js",
+		"types": "dist/index.d.ts",
+		"license": "MIT"
+		"contributers": ["Aaron Dill"]
 	 }
 EOF
 
 # Set some important fields
-npm pkg set name="$projectName"
-npm pkg set main='dist/index.js'
-npm pkg set types='dist/index.d.ts'
-npm pkg set license="MIT"
-npm pkg set publishConfig.access="public"
+npm pkg set name="$projectName" publishConfig.access="public"
 
 # ---- DEVDEPENDENCIES ----
 
@@ -79,20 +80,18 @@ npm i -D typescript @types/node release-it sort-package-json rimraf eslint @type
 # ---- SCRIPTS ----
 
 # Add utility scripts to npm
-npm pkg set scripts.clean="rimraf ./dist"
-npm pkg set scripts.lint="eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.mts,.cts,.tsx --fix"
-
+npm pkg set scripts.clean="rimraf ./dist" \
+	scripts.lint="eslint . --fix \$(echo --ext\ {.{,m,c}{js,ts},.{t,j}sx}) "
 # Add build script to npm using typescript
-npm pkg set scripts.prebuild="npm run lint && npm run clean"
-npm pkg set scripts.build="tsc --build"
+npm pkg set scripts.prebuild="npm run lint && npm run clean" \
+	scripts.build="tsc --build"
 
 # Add watch script to npm using typescript
-npm pkg set scripts.prewatch="npm run clean"
-npm pkg set scripts.watch="tsc --watch"
+npm pkg set scripts.prewatch="npm run clean" scripts.watch="tsc --watch"
 
 # Add sortPackage script to npm using sort-package-json
-npm pkg set scripts.sort-package="sort-package-json"
-npm pkg set scripts.prelint="npm run sort-package"
+npm pkg set scripts.sort-package="sort-package-json" scripts.prelint="npm run sort-package"
+
 # Add release scripts to release using release-it
 npm pkg set scripts.release="release-it"
 
