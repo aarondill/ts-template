@@ -92,6 +92,7 @@ npm pkg set scripts.watch="tsc --watch"
 
 # Add sortPackage script to npm using sort-package-json
 npm pkg set scripts.sort-package="sort-package-json"
+npm pkg set scripts.prelint="npm run sort-package"
 # Add release scripts to release using release-it
 npm pkg set scripts.release="release-it"
 
