@@ -70,6 +70,7 @@ npm pkg set name="$projectName"
 npm pkg set main='dist/index.js'
 npm pkg set types='dist/index.d.ts'
 npm pkg set license="MIT"
+npm pkg set publishConfig.access="public"
 
 # ---- DEVDEPENDENCIES ----
 
@@ -103,9 +104,9 @@ else
 fi
 
 if [[ -n "$useEslint" && "${useEslint,,}" =~ ^n(o)?$ ]]; then
-        # User doesn't want as root
+	# User doesn't want as root
 	# Replace first root: true with root: false for first instance
-        sed -i '0,/"root": true,/s//"root": false,/' .eslintrc.json
+	sed -i '0,/"root": true,/s//"root": false,/' .eslintrc.json
 fi
 
 # ---- TESTING SETUP ----
