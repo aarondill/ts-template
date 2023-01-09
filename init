@@ -124,7 +124,6 @@ if [[ -z "$jest" || "${jest,,}" =~ ^y(es)?$ ]]; then
 	npm i -D jest ts-jest types/jest >/dev/null
 
 	# Setup test scripts
-	npm pkg set scripts.pretest="npm run lint"
 	npm pkg set scripts.test="jest"
 
 	# Create tests directory and test file for index.ts

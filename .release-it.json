@@ -12,6 +12,7 @@
 		"tokenRef": "RELEASE_IT_GITHUB_TOKEN"
 	},
 	"hooks": {
+		"before:git:release": "git add . --update",
 		"after:bump": "npx auto-changelog -p"
 	}
 }
