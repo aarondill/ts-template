@@ -65,13 +65,15 @@ cat >|package.json <<-EOF
 		"private": true
 		"main": "dist/index.js",
 		"types": "dist/index.d.ts",
-		"license": "MIT"
-		"contributers": ["Aaron Dill"]
+		"license": "MIT",
+		"contributers": ["Aaron Dill"],
+		"files": ["dist"],
+		"publishConfig":{"access":"public"}
 	 }
 EOF
 
 # Set some important fields
-npm pkg set name="$projectName" publishConfig.access="public"
+npm pkg set name="$projectName"
 
 # ---- DEVDEPENDENCIES ----
 
