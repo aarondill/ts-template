@@ -124,7 +124,7 @@ fi
 
 if [[ -z "$jest" || "${jest,,}" =~ ^y(es)?$ ]]; then
 	# Install Jest and Jest types
-	npm i -D jest ts-jest types/jest >/dev/null
+	npm i -D jest ts-jest @types/jest >/dev/null
 
 	# Setup test scripts
 	npm pkg set scripts.test="jest"
