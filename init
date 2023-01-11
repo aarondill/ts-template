@@ -64,8 +64,8 @@ cat >|package.json <<-EOF
 	{
 		"version": "1.0.0",
 		"description": "",
-		"author": ""
-		"private": true
+		"author": "",
+		"private": true,
 		"main": "dist/index.js",
 		"types": "dist/index.d.ts",
 		"license": "MIT",
