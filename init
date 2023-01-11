@@ -43,6 +43,9 @@ fi
 
 # ---- FILE SETUP ----
 
+# Remove TODO file
+command -v rm &>/dev/null && rm ./TODO
+
 # Create src directory with index.ts file
 mkdir ./src
 touch ./src/index.ts
