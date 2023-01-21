@@ -134,7 +134,7 @@ if [[ -z "$jest" || "${jest,,}" =~ ^y(es)?$ ]]; then
 	touch tests/index.test.ts
 else
 	# Remove jest config if not required
-	rm jest.config.js
+	rm jest.config.*
 fi
 
 # ---- SORT PACKAGE.JSON ----
