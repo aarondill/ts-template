@@ -111,7 +111,7 @@ fi
 if [[ -n "$useEslint" && "${useEslint,,}" =~ ^n(o)?$ ]]; then
 	# User doesn't want as root
 	# Replace first root: true with root: false for first instance
-	sed -i '0,/"root": true,/s//"root": false,/' .eslintrc.*
+	sed -i '0,/root: true,/s//root: false,/' .eslintrc.*
 fi
 
 # ---- TESTING SETUP ----
