@@ -98,7 +98,7 @@ npm i -D typescript @types/node release-it sort-package-json rimraf eslint @type
 
 # Add utility scripts to npm
 npm pkg set scripts.clean="rimraf ./dist" \
-	scripts.lint="eslint . --fix \$(echo --ext\ {.{,m,c}{js,ts},.{t,j}sx}) "
+	scripts.lint="eslint . --fix --ext .js,.ts,.mjs,.mts,.cjs,.cts,.tsx,.jsx"
 # Add build script to npm using typescript
 npm pkg set scripts.prebuild="npm run lint && npm run clean" \
 	scripts.build="tsc --build"
