@@ -155,8 +155,10 @@ fi
 # display output if not --yes
 if [[ "$skipPrompts" == 't' ]]; then
 npx sort-package-json >/dev/null
+npx prettier package.json --write >/dev/null
 else 
 npx sort-package-json
+npx prettier package.json --write >/dev/null
 fi
 
 # ---- GIT INIT ----
